@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mb.dao.professionMapper" >
+    <resultMap id="BaseResultMap" type="com.mb.enity.profession" >
+        <id column="id" property="id" jdbcType="TINYINT" />
+        <result column="img" property="img" jdbcType="VARCHAR" />
+        <result column="development_direct" property="developmentDirect" jdbcType="VARCHAR" />
+        <result column="profession_name" property="professionName" jdbcType="VARCHAR" />
+        <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+        <result column="entry_barriers" property="entryBarriers" jdbcType="TINYINT" />
+        <result column="difficulty" property="difficulty" jdbcType="TINYINT" />
+        <result column="period_one" property="periodOne" jdbcType="TINYINT" />
+        <result column="period_two" property="periodTwo" jdbcType="TINYINT" />
+        <result column="sarcity" property="sarcity" jdbcType="BIGINT" />
+        <result column="salary_one" property="salaryOne" jdbcType="VARCHAR" />
+        <result column="salary_two" property="salaryTwo" jdbcType="VARCHAR" />
+        <result column="salary_three" property="salaryThree" jdbcType="VARCHAR" />
+        <result column="prompt" property="prompt" jdbcType="VARCHAR" />
+        <result column="pull_introduce" property="pullIntroduce" jdbcType="VARCHAR"/>
+        <result column="deve_id" property="deveId" jdbcType="TINYINT" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+    id, img,profession_name, introduce, entry_barriers, difficulty,
+    period_one, period_two, sarcity, salary_one, salary_two, salary_three, prompt,pull_introduce
+  </sql>
+
+    <select id="allProfession" resultMap="BaseResultMap" parameterType="java.lang.String">
+   select *  from (select p.*,d.development_direct
+    from profession p inner join development d on p.deve_id = d.id ) as xx where development_direct = #{developmentDirect,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

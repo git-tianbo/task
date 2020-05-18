@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://mybatis.org/schema/mybatis-spring
+                        http://mybatis.org/schema/mybatis-spring.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+">
+
+    <!--读取properties文件-->
+    <!--    <bean id="propertyConfigurer"-->
+    <!--          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+    <!--    <property name="location" value="classpath:jdbc.properties" />-->
+
+
+
+    <!--扫描dao（com.chuilun.dao）包下的注解-->
+    <context:component-scan base-package="com.mb.dao" />
+    <context:component-scan base-package="com.mb.service" />
+    <context:component-scan base-package="com.mb.enity" />
+    <context:component-scan base-package="com.mb.service.serviceImpl" />
+
+    <context:component-scan base-package="test.com.mb.Util" />
+    <context:component-scan base-package="test.com.mb.Interceptor" />
+
+
+    <!--        <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
+    <!--            <property name="basenames" value="classpath:message" />-->
+    <!--            <property name="defaultEncoding" value="UTF-8"/>-->
+    <!--            <property name="cacheSeconds" value="60"/>-->
+    <!--        </bean>-->
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+            <value>com.mysql.jdbc.Driver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:mysql://localhost:3306/titles?characterEncoding=utf-8</value>
+        </property>
+        <property name="username">
+            <value>root</value>
+        </property>
+        <property name="password">
+            <value>451976</value>
+        </property>
+    </bean>
+
+    <!-- 配置SqlSessionFactory对象 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 扫描entity包 使用别名 -->
+        <property name="typeAliasesPackage" value="com.mb.enity"/>
+        <!-- 扫描sql配置文件:mapper需要的xml文件 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+
+    <!-- 配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 注入sqlSessionFactory -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!-- 给出需要扫描Dao接口包 -->
+        <property name="basePackage" value="com.mb.dao"/>
+    </bean>
+    <!-- 启动@aspectj的自动代理支持-->
+    <aop:aspectj-autoproxy />
+
+</beans>

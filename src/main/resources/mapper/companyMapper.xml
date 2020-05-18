@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mb.dao.companyMapper" >
+    <resultMap id="BaseResultMap" type="com.mb.enity.company" >
+        <id column="id" property="id" jdbcType="TINYINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="img" property="img" jdbcType="VARCHAR" />
+        <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+        <result column="create_at" property="createAt" jdbcType="BIGINT" />
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+        <result column="update_at" property="updateAt" jdbcType="BIGINT" />
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+    id, name, img, introduce, create_at, create_by, update_at, update_by
+  </sql>
+
+    <select id="allCompany" resultMap="BaseResultMap">
+    select img,name,introduce from company
+  </select>
+
+    <select id="countCompany" resultType="java.lang.Integer">
+        select count(*) from  company
+    </select>
+
+</mapper>
