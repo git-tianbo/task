@@ -233,7 +233,7 @@
       <dependency>
           <groupId>commons-io</groupId>
           <artifactId>commons-io</artifactId>
-          <version>2.4</version>
+          <version>2.7</version>
       </dependency>
 
       <!--在springmvc中，如果使用@ResponseBody 返回json格式对象，需要导入jackson的jar包。-->
